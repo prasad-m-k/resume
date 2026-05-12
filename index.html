@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prasad MK — Site Reliability Engineer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --red: #E50914;
+    --red-dark: #B0060F;
+    --black: #141414;
+    --dark: #1a1a1a;
+    --surface: #1f1f1f;
+    --card: #242424;
+    --text: #e5e5e5;
+    --muted: #a3a3a3;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 6vw 8vh;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 30%, rgba(229,9,20,0.12) 0%, transparent 70%),
+      linear-gradient(180deg, rgba(20,20,20,0) 0%, rgba(20,20,20,0.4) 50%, rgba(20,20,20,1) 100%),
+      linear-gradient(90deg, rgba(20,20,20,0.9) 0%, rgba(20,20,20,0.3) 60%, rgba(20,20,20,0) 100%);
+    z-index: 1;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(229,9,20,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(229,9,20,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--red);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-up linear infinite;
+  }
+
+  @keyframes float-up {
+    0% { opacity: 0; transform: translateY(0); }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-120vh); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fade-up 0.6s 0.2s ease forwards;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 10vw, 130px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: #fff;
+    opacity: 0;
+    animation: fade-up 0.7s 0.4s ease forwards;
+  }
+
+  .hero-name span {
+    color: var(--red);
+  }
+
+  .hero-title {
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fade-up 0.7s 0.6s ease forwards;
+  }
+
+  .hero-title strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fade-up 0.7s 0.8s ease forwards;
+  }
+
+  .hero-stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fade-up 0.7s 1s ease forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: transform 0.15s, background 0.15s;
+  }
+
+  .btn:hover { transform: scale(1.03); }
+
+  .btn-primary {
+    background: var(--red);
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: #ff0e1b; }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 6vw;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fade-in 1s 1.5s ease forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(var(--red), transparent);
+    animation: scroll-pulse 2s ease infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6rem 6vw;
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 60px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 58px);
+    letter-spacing: 0.03em;
+    color: #fff;
+    margin-bottom: 3rem;
+    line-height: 1;
+  }
+
+  /* ── ABOUT / SUMMARY ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .summary-text {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .summary-text strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .highlight-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .hcard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .hcard:hover {
+    border-color: rgba(229,9,20,0.4);
+    transform: translateY(-2px);
+  }
+
+  .hcard-icon {
+    font-size: 22px;
+    margin-bottom: 0.5rem;
+  }
+
+  .hcard-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .hcard-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SKILLS ── */
+  .skills-section {
+    background: var(--surface);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .skill-group:hover {
+    border-color: rgba(229,9,20,0.3);
+  }
+
+  .skill-group-name {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tag {
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 3px 8px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .skill-tag:hover {
+    color: var(--text);
+    border-color: rgba(229,9,20,0.4);
+  }
+
+  /* ── EXPERIENCE TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(var(--red), rgba(229,9,20,0.1));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.4rem;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 2px solid var(--black);
+    box-shadow: 0 0 0 1px var(--red);
+  }
+
+  .timeline-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-role {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .timeline-company {
+    font-size: 14px;
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  .timeline-dates {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-left: auto;
+  }
+
+  .timeline-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .timeline-bullets li {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .timeline-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-size: 11px;
+    top: 3px;
+  }
+
+  .timeline-bullets li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── FEATURED SECTION (impact numbers) ── */
+  .impact-section {
+    background: var(--red);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .impact-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(0,0,0,0.06) 20px,
+      rgba(0,0,0,0.06) 21px
+    );
+  }
+
+  .impact-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .impact-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 72px);
+    color: #fff;
+    line-height: 1;
+  }
+
+  .impact-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    margin-top: 6px;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+  }
+
+  /* ── PUBLICATIONS ── */
+  .pub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pub-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .pub-card:hover {
+    border-color: rgba(229,9,20,0.4);
+    transform: translateY(-3px);
+  }
+
+  .pub-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .pub-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .pub-type {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+
+  .pub-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .pub-meta {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .contact-section .section-title {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--card);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--red);
+    color: var(--text);
+  }
+
+  .contact-link-icon {
+    font-size: 16px;
+    color: var(--red);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+  }
+
+  nav.scrolled {
+    background: rgba(20,20,20,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    color: #fff;
+  }
+
+  .nav-logo span {
+    color: var(--red);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: #fff; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 6vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer span { color: var(--red); }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">PRASAD <span>MK</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Site Reliability Engineer 5 — Candidate</div>
+    <h1 class="hero-name">PRASAD<br><span>MK</span></h1>
+    <p class="hero-title"><strong>Live Streaming &amp; Traffic at Scale</strong> &nbsp;·&nbsp; 25+ Years Production Systems &nbsp;·&nbsp; Rocklin, CA</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">25+</div>
+        <div class="hero-stat-label">Years in Production</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">8TB</div>
+        <div class="hero-stat-label">Pipeline / Day</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">99.99</div>
+        <div class="hero-stat-label">% SLA Owned</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">10K</div>
+        <div class="hero-stat-label">Connections Scaled</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#experience" class="btn btn-primary">▶ &nbsp;View Experience</a>
+      <a href="mailto:prasad.rocklin@gmail.com" class="btn btn-secondary">Get In Touch</a>
+    </div>
+    <div style="margin-top: 1.5rem; opacity: 0; animation: fade-in 1s 1.2s ease forwards;">
+      <span style="display: inline-flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); letter-spacing: 0.04em; border-left: 3px solid var(--red); padding-left: 10px;">
+        <span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 1px 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #fff; border-radius: 2px;">TV-MA</span>
+        25 Seasons &nbsp;·&nbsp; Genre: Infrastructure Thriller &nbsp;·&nbsp; Subtitles: Python, Go, Bash &nbsp;·&nbsp; Available: Immediately
+      </span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Profile</div>
+  <h2 class="section-title">WHO I AM</h2>
+  <div class="about-grid">
+    <div class="summary-text">
+      Infrastructure and reliability engineer with <strong>25+ years</strong> owning large-scale production systems, including on-site at <strong>Apple, Samsung, Disney, FedEx,</strong> and <strong>PG&E</strong>.<br><br>
+      Expert-level <strong>Linux and TCP/IP</strong> background: ported full network stacks from IPv4 to IPv6, traced packets in live production, tuned <strong>DNS, TLS, and HTTP-layer</strong> behavior under load.<br><br>
+      Built Kafka and Pulsar pipelines at <strong>8TB/day</strong> with sub-second latency. Experienced in <strong>load testing, fault injection,</strong> and driving observability end-to-end to solve <strong>thundering-herd</strong> and traffic-at-scale problems.<br><br>
+      Comfortable rotating on-call, writing production code in <strong>Python and Go</strong>, and debugging complex failures across distributed microservice architectures.
+    </div>
+    <div class="highlight-cards">
+      <div class="hcard">
+        <div class="hcard-icon">🔴</div>
+        <div class="hcard-value">$2.1M</div>
+        <div class="hcard-label">Annual cost saved via K8s migration</div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-icon">⚡</div>
+        <div class="hcard-value">45%</div>
+        <div class="hcard-label">Incident resolution time reduced</div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-icon">📡</div>
+        <div class="hcard-value">40%</div>
+        <div class="hcard-label">Pipeline incidents cut via automation</div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-icon">🛡</div>
+        <div class="hcard-value">100%</div>
+        <div class="hcard-label">Fortune 500 escalations resolved</div>
+      </div>
+      <div class="hcard" style="grid-column: span 2; border-color: rgba(229,9,20,0.3);">
+        <div class="hcard-icon">🏆</div>
+        <div class="hcard-value" style="font-size: 22px; letter-spacing: 0.02em;">Global High Impact Award</div>
+        <div class="hcard-label">HP — Recognized in India national press as globally rewarded engineer for Total Customer Experience excellence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT STRIP -->
+<section class="impact-section" style="padding: 4rem 6vw;">
+  <div class="impact-grid">
+    <div>
+      <div class="impact-number">50+</div>
+      <div class="impact-desc">Microservices migrated to Kubernetes</div>
+    </div>
+    <div>
+      <div class="impact-number">70%</div>
+      <div class="impact-desc">Infra setup time reduced via Terraform</div>
+    </div>
+    <div>
+      <div class="impact-number">95%</div>
+      <div class="impact-desc">R&D roundtrips eliminated via tooling</div>
+    </div>
+    <div>
+      <div class="impact-number">10K</div>
+      <div class="impact-desc">BBC concurrent connections scaled from 2K</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">TECHNICAL SKILLS</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-name">Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">Go</span><span class="skill-tag">Java</span><span class="skill-tag">C/C++</span><span class="skill-tag">Bash</span><span class="skill-tag">Perl</span><span class="skill-tag">SQL</span><span class="skill-tag">Rust (familiar)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Streaming &amp; Analytics</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Kafka</span><span class="skill-tag">Pulsar</span><span class="skill-tag">Presto/Trino</span><span class="skill-tag">Spark SQL</span><span class="skill-tag">Time-series DBs</span><span class="skill-tag">8TB/day pipelines</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Networking</div>
+      <div class="skill-tags">
+        <span class="skill-tag">TCP/IP</span><span class="skill-tag">DNS</span><span class="skill-tag">TLS/SSL</span><span class="skill-tag">HTTP(S)</span><span class="skill-tag">IPv4/IPv6</span><span class="skill-tag">L4/L7 Load Balancing</span><span class="skill-tag">Reverse Proxy</span><span class="skill-tag">Nginx</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Reliability</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Load Testing</span><span class="skill-tag">Fault Injection</span><span class="skill-tag">Chaos Engineering</span><span class="skill-tag">SLO/SLA Ownership</span><span class="skill-tag">Capacity Planning</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Observability</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">Datadog</span><span class="skill-tag">Honeycomb</span><span class="skill-tag">OTEL</span><span class="skill-tag">Distributed Tracing</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Infrastructure</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Kubernetes</span><span class="skill-tag">Docker</span><span class="skill-tag">EKS</span><span class="skill-tag">OpenShift</span><span class="skill-tag">Terraform</span><span class="skill-tag">Helm</span><span class="skill-tag">AWS</span><span class="skill-tag">GCP</span><span class="skill-tag">Azure</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Services &amp; OS</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Linux (RHEL/Ubuntu/SUSE)</span><span class="skill-tag">Memcached</span><span class="skill-tag">Apache</span><span class="skill-tag">API Gateway</span><span class="skill-tag">Packet Tracing</span><span class="skill-tag">Perf Tuning</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MySQL</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">DynamoDB</span><span class="skill-tag">Oracle</span><span class="skill-tag">Vertica</span><span class="skill-tag">MSSQL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career</div>
+  <h2 class="section-title">EXPERIENCE</h2>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-role">Solution Architect &amp; Team Lead, IT Infrastructure</span>
+        <span class="timeline-company">Wipro Ltd. (Client: PNC Bank)</span>
+        <span class="timeline-dates">Oct 2025 — Present</span>
+      </div>
+      <p class="timeline-subtitle">Technical lead for microservices architecture and production reliability across a 70,000-user enterprise environment on OpenShift and AWS.</p>
+      <ul class="timeline-bullets">
+        <li>Led development of <strong>REST APIs</strong> for the Alert Management System using Java and Spring Boot; designed API gateway routing, inter-service communication patterns, and end-to-end observability.</li>
+        <li>Executed <strong>load testing and capacity modeling</strong> for critical API traffic paths, identifying bottlenecks before production events and enabling proactive scaling.</li>
+        <li>Architected CI/CD pipelines with Jenkins and Terraform incorporating real-time security scanning; achieved <strong>0% critical vulnerabilities</strong> in production.</li>
+        <li>Established runbook-as-code practices reducing escalation dependency for on-call engineers.</li>
+        <li>Building <strong>agentic AI tooling</strong> on AWS Bedrock; submitted Invention Disclosure Form for patent consideration.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-role">Cloud Solution Architect / SRE / DevOps Engineer</span>
+        <span class="timeline-company">OpenText (ex Micro Focus)</span>
+        <span class="timeline-dates">May 2018 — May 2025</span>
+      </div>
+      <p class="timeline-subtitle">Sole SRE owner for SaaS AIOps and Network Operations Manager across the Americas. On-call for all production incidents.</p>
+      <ul class="timeline-bullets">
+        <li>Maintained <strong>99.99% SLA uptime</strong> as single-threaded owner; drove SOC2 compliance and owned DR strategy organization-wide.</li>
+        <li>Built and operated <strong>Kafka and Pulsar pipelines at 8TB/day</strong> with sub-second latency; used Presto/SQL for real-time analytics during incident response.</li>
+        <li>Designed and executed <strong>load testing and fault injection</strong> scenarios to validate system behavior under sudden traffic spikes.</li>
+        <li>Administered and monitored <strong>Nginx reverse proxies</strong> within OpsBridge and Optic Data Lake, including customer-facing health monitoring and HTTP cache layers.</li>
+        <li>Applied deep Linux internals knowledge for perf tuning and <strong>packet-level tracing</strong>; diagnosed DNS, TLS, and HTTP-layer failures, reducing resolution time by <strong>45%</strong>.</li>
+        <li>Led migration of <strong>50+ microservices to Kubernetes</strong>, reducing provisioning from days to 30 minutes and saving <strong>$2.1M annually</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-role">Product Engineer / Software Designer</span>
+        <span class="timeline-company">Hewlett Packard / HPE</span>
+        <span class="timeline-dates">Sep 2004 — Apr 2018</span>
+      </div>
+      <p class="timeline-subtitle">14 years spanning software engineering through on-site technical escalation at Apple, Samsung, Disney, FedEx, and PG&E.</p>
+      <ul class="timeline-bullets">
+        <li>Engineered and scaled the <strong>BBC (Backbone Communication Component)</strong>, core async broker for Operations Agent, from <strong>2,000 to 10,000 concurrent connections</strong> across all Unix and Windows platforms.</li>
+        <li>Implemented <strong>Reverse Channel Proxy</strong> for Operations Agent — enabling customers to connect to OpsBridge through a single outbound connection with no inbound firewall rules.</li>
+        <li>Administered and monitored <strong>Nginx deployments</strong> within OpsBridge and customer environments; diagnosed HTTP-layer and proxy configuration failures in live enterprise production.</li>
+        <li>Led <strong>IPv4-to-IPv6 migration</strong> of Operations Agent network stack with zero disruption across all supported enterprise platforms.</li>
+        <li>Engineered <strong>Embedded Perl memory caching</strong> enabling two years of uninterrupted operation in medical equipment and submarines.</li>
+        <li>Resolved <strong>100% of on-site escalations</strong> at Fortune 500 accounts, securing multi-million-dollar contract renewals. Recipient of <strong>Global High Impact Award</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">
+        <span class="timeline-role">Software Engineer</span>
+        <span class="timeline-company">ProCSys (Client: ArcanaNetworks / Cisco)</span>
+        <span class="timeline-dates">Sep 1999 — Aug 2004</span>
+      </div>
+      <ul class="timeline-bullets">
+        <li>Built <strong>OpsXML</strong>: intent-driven, declarative network device management framework for thousands of Cisco CCNA lab environments — one of the earliest implementations of infrastructure-as-code for physical networking.</li>
+        <li>Delivered SBA Teleworking deployment system automating secure remote access provisioning at enterprise scale.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications" style="background: var(--surface);">
+  <div class="section-label">Thought Leadership</div>
+  <h2 class="section-title">PUBLICATIONS</h2>
+  <div class="pub-grid">
+    <div class="pub-card">
+      <div class="pub-type">SSRN Working Paper · 2025</div>
+      <div class="pub-title">"Taxing the AI Agents"</div>
+      <div class="pub-meta">Engages directly with Anthropic's model spec and AI agent governance</div>
+      <div style="margin-top: 10px;"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6194458" target="_blank" style="font-size: 12px; color: var(--red); text-decoration: none; letter-spacing: 0.04em;">VIEW PAPER →</a></div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-type">Amazon Published Author</div>
+      <div class="pub-title">DAY ONE AI: From Your First Job to Your First Product</div>
+      <div class="pub-meta">ISBN 979-8-9957306-0-6</div>
+      <div style="margin-top: 10px;"><a href="https://www.amazon.com/dp/B0GX2XHJN6" target="_blank" style="font-size: 12px; color: var(--red); text-decoration: none; letter-spacing: 0.04em;">VIEW ON AMAZON →</a></div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-type">Medium Series</div>
+      <div class="pub-title">"The Escalation Trap" — 3-Part Series</div>
+      <div class="pub-meta">@prasad.rocklin · Better Programming · dev.to communities</div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-type">Open Source</div>
+      <div class="pub-title">AI Agent for Anki / Ankiweb</div>
+      <div class="pub-meta">Targeting 10M+ user base · github.com/prasad-m-k</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-label" style="justify-content: center;">Let's Connect</div>
+  <h2 class="section-title">GET IN TOUCH</h2>
+  <p class="contact-subtitle">Open to discussing the SRE 5 — Live SRE role at Netflix. Happy to walk through any of the live streaming reliability challenges in detail.</p>
+  <div class="contact-links">
+    <a href="mailto:prasad.rocklin@gmail.com" class="contact-link">
+      <span class="contact-link-icon">✉</span> prasad.rocklin@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/prasad-m-k" class="contact-link" target="_blank">
+      <span class="contact-link-icon">in</span> linkedin.com/in/prasad-m-k
+    </a>
+    <a href="https://github.com/prasad-m-k" class="contact-link" target="_blank">
+      <span class="contact-link-icon">⌥</span> github.com/prasad-m-k
+    </a>
+    <a href="tel:+12792459209" class="contact-link">
+      <span class="contact-link-icon">📞</span> +1 (279) 245-9209
+    </a>
+  </div>
+  <div style="font-size: 12px; color: var(--muted);">Rocklin, CA &nbsp;·&nbsp; Available for remote roles</div>
+</section>
+
+<footer>
+  <div>© 2026 Prasad MK &nbsp;·&nbsp; <span>prasad.rocklin@gmail.com</span></div>
+  <div>Site Reliability Engineer 5 &nbsp;·&nbsp; Live SRE Candidate &nbsp;·&nbsp; <span>Netflix</span></div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const particles = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 14) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+    particles.appendChild(p);
+  }
+
+  const items = document.querySelectorAll('.timeline-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(item => observer.observe(item));
+</script>
+</body>
+</html>
